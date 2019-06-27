@@ -1,0 +1,35 @@
+version: "3"
+services:
+  mydb:
+    build: ./mysql
+    container_name: "mydb"
+    restart: always
+    ports:
+      - "3307:3306"
+    volumes:
+      - $PWD/mysql/conf:/etc/mysql/conf.d:ro
+      - $PWD/mysql/data:/var/lib/mysql:rw 
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+  myphp:
+    build: ./php
+    container_name: "myphp"
+    restart: always
+    ports:
+      - "9001:9000"
+    links:
+      - "mydb"
+    volumes:
+      - $PWD/../www:/var/www/html
+  mynginx:
+    build: ./nginx
+    container_name: "mynginx"
+    restart: always
+    ports:
+      - "8088:80"
+    links:
+      - "myphp"
+    volumes:
+      - $PWD/../www:/usr/share/nginx/html
+      - $PWD/nginx/conf/:/etc/nginx:ro
+      - $PWD/nginx/logs:/var/logs/nginx:rw
