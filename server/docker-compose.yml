@@ -4,6 +4,8 @@ services:
     build: ./mysql
     container_name: "mydb"
     restart: always
+    networks:
+      - default
     ports:
       - "3307:3306"
     volumes:
@@ -12,11 +14,13 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=123456
       - MYSQL_USER=phpmyadmin
-      - MYSQL_PASSWORD=o5UC95311O1silJ0
+      - MYSQL_PASSWORD=123456
   myphp:
     build: ./php
     container_name: "myphp"
     restart: always
+    networks:
+      - default
     ports:
       - "9001:9000"
     links:
@@ -27,6 +31,8 @@ services:
     build: ./nginx
     container_name: "mynginx"
     restart: always
+    networks:
+      - default
     ports:
       - "8088:80"
     links:
@@ -35,3 +41,18 @@ services:
       - $PWD/../www:/usr/share/nginx/html
       - $PWD/nginx/conf/:/etc/nginx:ro
       - $PWD/nginx/logs:/var/logs/nginx:rw
+  myadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: "myadmin"
+    restart: always
+    networks:
+      - default
+    ports:
+      - "801:80"
+    links:
+      - "mydb"
+    environment:
+      - PMA_HOSTS=mydb
+
+networks:
+  default:
