@@ -34,7 +34,7 @@ services:
     networks:
       - default
     ports:
-      - "8088:80"
+      - "8089:80"
     links:
       - "myphp"
     volumes:
