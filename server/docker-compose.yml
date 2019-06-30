@@ -21,6 +21,8 @@ services:
     restart: always
     networks:
       - default
+    depends_on:
+      - mydb
     ports:
       - "9001:9000"
     links:
@@ -33,6 +35,8 @@ services:
     restart: always
     networks:
       - default
+    depends_on:
+      - myphp
     ports:
       - "8089:80"
     links:
