@@ -1,17 +1,21 @@
-FROM php:5.6-fpm
+ARG PHP_VERSION
+FROM php:${PHP_VERSION}-fpm-alpine
 
-ENV TZ=Asia/Shanghai
-RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+ARG PHP_EXTENSIONS
+ARG MORE_EXTENSION_INSTALLER
+ARG ALPINE_REPOSITORIES
 
-RUN apt-get update && apt-get install -y \
-        libfreetype6-dev \
-        libjpeg62-turbo-dev \
-        libpng-dev \
-    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
-    && docker-php-ext-install -j$(nproc) gd \
-        && docker-php-ext-install zip \
-        && docker-php-ext-install pdo_mysql \
-        && docker-php-ext-install opcache \
-        && docker-php-ext-install mysqli
+COPY ./extensions /tmp/extensions
+WORKDIR /tmp/extensions
 
-RUN usermod -u 1000 www-data
+ENV EXTENSIONS=",${PHP_EXTENSIONS},"
+ENV MC="-j$(nproc)"
+
+RUN export MC="-j$(nproc)" \
+    && chmod +x install.sh \
+    && chmod +x "${MORE_EXTENSION_INSTALLER}" \
+    && sh install.sh \
+    && sh "${MORE_EXTENSION_INSTALLER}" \
+    && rm -rf /tmp/extensions
+
+WORKDIR /var/www/html
