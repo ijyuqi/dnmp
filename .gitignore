@@ -1,5 +1,6 @@
 server/log/*
 server/mysql/data/*
+server/postgresql/data/*
 www/*
 
 
