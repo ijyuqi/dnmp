@@ -10,7 +10,8 @@ fi
 
 echo -n "输入站点文件名:"
 read SITE_FILENAME
-if [ ! $SITE_FILENAME ]; then
+if [ ! -d $SITE_FILENAME ]; then
+	mkdir -p ./../www/$SITE_FILENAME
 	echo " the site filename which you want create"
 	exit
 fi
@@ -21,7 +22,6 @@ if [ ! $PORT ]; then
 	$PORT = '80'
 fi
 
-mkdir -p ./../www/$SITE_FILENAME
 cd ./nginx/
 sed "s/@DOMAIN_NAME/${DOMAIN_NAME}/g" localhost.templet.conf | sed "s/@SITE_FILENAME/${SITE_FILENAME}/g" | sed "s/@PORT/${PORT}/g" > ./conf.d/${SITE_FILENAME}.conf
 
