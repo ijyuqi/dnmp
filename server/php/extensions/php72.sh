@@ -93,3 +93,15 @@ if [ -z "${EXTENSIONS##*,sqlsrv,*}" ]; then
     printf "\n" | pecl install sqlsrv
     docker-php-ext-enable sqlsrv
 fi
+
+if [ -z "${EXTENSIONS##*,mongodb,*}" ]; then
+    echo "---------- Install mongodb ----------"
+    mkdir mongodb \
+    && tar -xf mongodb-1.4.4.tgz -C mongodb --strip-components=1 \
+    && ( cd mongodb && phpize && ./configure --enable-openssl && make ${MC} && make install ) \
+    && docker-php-ext-enable mongodb
+fi
+
+
+
+
