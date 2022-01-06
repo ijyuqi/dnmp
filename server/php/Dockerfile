@@ -17,7 +17,7 @@ RUN export MC="-j$(nproc)" \
     && sh install.sh \
     && sh "${MORE_EXTENSION_INSTALLER}" \
     && chmod +x composer.sh \
-    && sh composer.sh
+    && sh composer.sh \
     && rm -rf /tmp/extensions
 
 WORKDIR /var/www/html
