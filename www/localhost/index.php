@@ -1,4 +1,6 @@
 <?php
+echo phpinfo();
+exit();
 echo '<p>php环境搭建成功</p>';
 try {
     new PDO('mysql:host=mysql;dbname=mysql', 'root', '123456');//host地址直接使用link指定的标签mydb

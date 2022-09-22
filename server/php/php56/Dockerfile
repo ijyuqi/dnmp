@@ -16,9 +16,6 @@ RUN export MC="-j$(nproc)" \
     && chmod +x "${MORE_EXTENSION_INSTALLER}" \
     && sh install.sh \
     && sh "${MORE_EXTENSION_INSTALLER}" \
-    && chmod +x composer.sh \
-    && sh composer.sh \
     && rm -rf /tmp/extensions
 
-EXPOSE 30000
 WORKDIR /var/www/html

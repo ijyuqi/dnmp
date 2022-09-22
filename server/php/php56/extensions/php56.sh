@@ -66,7 +66,7 @@ fi
 if [ -z "${EXTENSIONS##*,xdebug,*}" ]; then
     echo "---------- Install xdebug ----------"
     mkdir xdebug \
-    && tar -xf xdebug-2.6.1.tgz -C xdebug --strip-components=1 \
+    && tar -xf xdebug-2.5.5.tgz -C xdebug --strip-components=1 \
     && ( cd xdebug && phpize && ./configure && make ${MC} && make install ) \
     && docker-php-ext-enable xdebug
 fi
@@ -102,13 +102,6 @@ if [ -z "${EXTENSIONS##*,mongodb,*}" ]; then
     && docker-php-ext-enable mongodb
 fi
 
-if [ -z "${EXTENSIONS##*,imagick,*}" ]; then
-    echo "---------- Install imagick ----------"
-        apk add --no-cache file-dev
-        apk add --no-cache imagemagick-dev
-    printf "\n" | pecl install imagick-3.4.4
-    docker-php-ext-enable imagick
-fi
 
 
 
